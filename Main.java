@@ -5,6 +5,8 @@ import java.util.*;
  * The Fictional Infection Simulation Host
  */
 public class Main {
+    
+    public static int TURNS = 20;
 
     public static void main(String[] args){
         
@@ -22,22 +24,45 @@ public class Main {
             }
         }
         
-        Main.printCitySummary(city);
-        Main.printLocationDetails(city);
+        List<Person> people = city.getPeople();
+        int randomInt = Main.getRandom().nextInt(people.size());
+        people.get(randomInt).setState(Person.State.INFECTED);
         
-        for(int i = 0; i < 2; i++){
+        Main.printCitySummary(city);
+        //Main.printLocationDetails(city);
+        Main.printCityLine(city);
+        
+        for(int i = 1; i < TURNS; i++){
             city.doTurn();
-            Main.printLocationDetails(city);
+            //Main.printLocationDetails(city);
+            Main.printCityLine(city);
         }
+        
+        //Main.printCitySummary(city);
         
     }
     
     public static void printCitySummary(City city){
-        int people = city.getPeople().size();
+        List<Person> people = city.getPeople();
         int locations = city.getLocations().size();
-        System.out.println(city.getName() + " Summary:");
-        System.out.println(people + " people");
+        System.out.println(city.getName() + " at Time: " + city.getTime());
         System.out.println(locations + " locations");
+        System.out.println(people.size() + " people");
+        HashMap<Person.State, List<Person>> stateMap = Person.getPeopleByState(people);
+        for(Person.State state : Person.State.values()){
+            String out = state.getName() + ": " + stateMap.get(state).size();
+            System.out.println(out);
+        }
+    }
+    
+    public static void printCityLine(City city){
+        String out = "" + city.getTime();
+        List<Person> people = city.getPeople();
+        HashMap<Person.State, List<Person>> stateMap = Person.getPeopleByState(people);
+        for(Person.State state : Person.State.values()){
+            out += "," + stateMap.get(state).size();
+        }
+        System.out.println(out);
     }
 
     public static void printLocationDetails(City city){
@@ -47,6 +72,11 @@ public class Main {
             Location lc = entry.getKey();
             System.out.println(lc.getName() + ": " + entry.getValue().size());
         }
+    }
+    
+    private static Random random = new Random();
+    public static Random getRandom(){
+        return random;
     }
 
 }

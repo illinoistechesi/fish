@@ -12,6 +12,24 @@ public class GridLocation extends Location {
         this.y = y;
     }
     
+    public void doInteractions(List<Person> people){
+        HashMap<Person.State, List<Person>> map = Person.getPeopleByState(people);
+        for(Person personInf : map.get(Person.State.INFECTED)){
+            List<Person> susceptibles = map.get(Person.State.SUSCEPTIBLE);
+            Iterator<Person> iter = susceptibles.iterator();
+            while(iter.hasNext()){
+                Person personSus = iter.next();
+                double inf = personInf.getInfectivity();
+                double sus = personSus.getSusceptibility();
+                if(inf > sus){
+                    personSus.setState(Person.State.INFECTED);
+                    //susceptibles.remove(personSus);
+                    iter.remove();
+                }
+            }
+        }
+    }
+    
     public boolean isAdjacentTo(GridLocation loc){
         int diffX = Math.abs(loc.getX() - this.getX());
         int diffY = Math.abs(loc.getY() - this.getY());

@@ -1,3 +1,5 @@
+import java.util.*;
+
 abstract public class Location {
     
     private String name = "Unnamed Location";
@@ -13,5 +15,7 @@ abstract public class Location {
     public String getName(){
         return this.name;
     }
+    
+    abstract void doInteractions(List<Person> people);
 
 }

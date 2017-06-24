@@ -17,10 +17,11 @@ public class City {
         for(Person p : this.getPeople()){
             p.doTurn(this);
         }
-        HashMap<Location, List<Person>> map = city.getPeopleByLocation();
+        HashMap<Location, List<Person>> map = this.getPeopleByLocation();
         for(Map.Entry<Location, List<Person>> entry : map.entrySet()){
             Location loc = entry.getKey();
             List<Person> people = entry.getValue();
+            loc.doInteractions(people);
         }
         this.time++;
     }

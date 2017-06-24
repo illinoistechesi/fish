@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 /*
  * F.I.S.H.
@@ -31,7 +32,9 @@ public class Main {
         Disease disease = new DeltaDisease();
         people.get(randomInt).doInfect(disease);
         
-        Main.printCitySummary(city);
+        openFile();
+        
+        //Main.printCitySummary(city);
         //Main.printLocationDetails(city);
         Main.printCityLine(city);
         
@@ -43,6 +46,48 @@ public class Main {
         
         //Main.printCitySummary(city);
         
+        closeFile();
+        
+    }
+    
+    private static final String FILENAME = "output.txt";
+    private static BufferedWriter bw = null;
+    private static FileWriter fw = null;
+    
+    public static void openFile(){
+        try{
+            fw = new FileWriter(FILENAME);
+            bw = new BufferedWriter(fw);
+        }
+        catch(IOException e){
+            System.out.println("Error in openFile()");
+            e.printStackTrace();
+        }
+    }
+    
+    public static void writeFileLine(String content){
+        try{
+            bw.write(content + "\n");
+        }
+        catch(IOException e){
+            System.out.println("Error in writeFileLine()");
+            e.printStackTrace();
+        }
+    }
+    
+    public static void closeFile(){
+        try{
+            if(bw != null){
+                bw.close();
+            }
+            if(fw != null){
+                fw.close();
+            }
+        }
+        catch(IOException e){
+            System.out.println("Error in closeFile()");
+            e.printStackTrace();
+        }
     }
     
     public static void printCitySummary(City city){
@@ -65,7 +110,7 @@ public class Main {
         for(Person.State state : Person.State.values()){
             out += "," + stateMap.get(state).size();
         }
-        System.out.println(out);
+        Main.writeFileLine(out);
     }
 
     public static void printLocationDetails(City city){

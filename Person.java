@@ -29,10 +29,24 @@ public class Person {
         this.location = location;
         this.state = State.SUSCEPTIBLE;
     }
-    
+
     public void doTurn(City city){
         Location loc = routine.getNextLocation(this, city);
         this.location = loc;
+    }
+    
+    private int infectedOn;
+    public void doInfect(City city){
+        infectedOn = city.getTime();
+        this.setState(State.INFECTED);
+    }
+    
+    public double getInfectivity(){
+        return Main.getRandom().nextDouble() / 2;
+    }
+    
+    public double getSusceptibility(){
+        return Main.getRandom().nextDouble();
     }
     
     public void setRoutine(Routine routine){
@@ -51,7 +65,7 @@ public class Person {
         return this.state;
     }
     
-    public void setState(State state){
+    private void setState(State state){
         this.state = state;
     }
     
@@ -66,11 +80,4 @@ public class Person {
         return map;
     }
     
-    public double getInfectivity(){
-        return Main.getRandom().nextDouble() / 2;
-    }
-    
-    public double getSusceptibility(){
-        return Main.getRandom().nextDouble();
-    }
 }

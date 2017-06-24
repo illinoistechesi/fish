@@ -7,15 +7,17 @@ import java.util.*;
 public class Main {
     
     public static int TURNS = 20;
+    public static int GRID_SIZE = 20;
+    public static int FAMILY_SIZE = 4;
 
     public static void main(String[] args){
         
         City city = new City("Scise City");
         
-        for(int x = 0; x < 5; x++){
-            for(int y = 0; y < 5; y++){
+        for(int x = 0; x < GRID_SIZE; x++){
+            for(int y = 0; y < GRID_SIZE; y++){
                 GridLocation home = new GridLocation("G" + x + "/" + y, x, y);
-                for(int p = 0; p < 4; p++){
+                for(int p = 0; p < FAMILY_SIZE; p++){
                     Routine routine = new NormalRoutine();
                     Person person = new Person(routine, home);
                     city.addPerson(person);

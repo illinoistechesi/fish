@@ -22,8 +22,8 @@ public class GridLocation extends Location {
                 double inf = personInf.getInfectivity();
                 double sus = personSus.getSusceptibility();
                 if(inf > sus){
-                    personSus.setState(Person.State.INFECTED);
-                    //susceptibles.remove(personSus);
+                    //personSus.setState(Person.State.INFECTED);
+                    personSus.doInfect(personInf.getDisease());
                     iter.remove();
                 }
             }

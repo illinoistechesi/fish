@@ -1,9 +1,9 @@
 
-abstract class DiseaseBlueprint {
+abstract class Disease {
     
-    abstract DiseaseAction move(SimulatedHost host);
+    abstract DiseaseAction move(Person host);
     
-    public DiseaseBlueprint() {
+    public Disease() {
         
     }
 

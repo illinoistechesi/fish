@@ -1,5 +1,5 @@
 
-class GammaDisease extends DiseaseBlueprint {
+class GammaDisease extends Disease {
     
     @Override
     public String getName() {
@@ -24,7 +24,7 @@ class GammaDisease extends DiseaseBlueprint {
     private int lastEnergy = 0;
     
     @Override
-    public DiseaseAction move(SimulatedHost host) {
+    public DiseaseAction move(Person host) {
         DiseaseAction action = DiseaseAction.MULTIPLY;
         if(host.isIncubated()){
             int energyLoss = lastEnergy - host.getEnergy();
@@ -32,7 +32,7 @@ class GammaDisease extends DiseaseBlueprint {
                 action = DiseaseAction.MULTIPLY;
             }
             else{
-                int days = host.getDaysSinceInfection();
+                int days = host.getTimeSinceInfection();
                 if(days % 2 == 0){
                     action = DiseaseAction.RELEASE;
                 }

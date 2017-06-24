@@ -6,7 +6,7 @@ import java.util.*;
  */
 public class Main {
     
-    public static int TURNS = 20;
+    public static int TURNS = 30;
     public static int GRID_SIZE = 20;
     public static int FAMILY_SIZE = 4;
 
@@ -28,7 +28,8 @@ public class Main {
         
         List<Person> people = city.getPeople();
         int randomInt = Main.getRandom().nextInt(people.size());
-        people.get(randomInt).setState(Person.State.INFECTED);
+        Disease disease = new DeltaDisease();
+        people.get(randomInt).doInfect(disease);
         
         Main.printCitySummary(city);
         //Main.printLocationDetails(city);

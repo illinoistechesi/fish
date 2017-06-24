@@ -1,5 +1,5 @@
 
-class DeltaDisease extends DiseaseBlueprint {
+class DeltaDisease extends Disease {
     
     @Override
     public String getName() {
@@ -36,7 +36,7 @@ class DeltaDisease extends DiseaseBlueprint {
     private boolean alternator = false;
     
     @Override
-    public DiseaseAction move(SimulatedHost host) {
+    public DiseaseAction move(Person host) {
         DiseaseAction action = DiseaseAction.MULTIPLY;
         if(host.isIncubated()){
             action = DiseaseAction.RELEASE;

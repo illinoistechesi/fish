@@ -8,9 +8,10 @@ public class NormalRoutine extends Routine {
     
     public Location getNextLocation(Person person, City city){
         List<Location> locs = city.getLocations();
-        GridLocation current = (GridLocation)person.getLocation();
-        List<Location> adj = GridLocation.getAdjacentLocations(locs, current);
-        return adj.get(0);
+        //GridLocation current = (GridLocation)person.getLocation();
+        //List<Location> adj = GridLocation.getAdjacentLocations(locs, current);
+        //return adj.get(0);
+        return person.getLocation();
     }
     
 }

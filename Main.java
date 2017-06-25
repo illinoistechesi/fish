@@ -18,7 +18,7 @@ public class Main {
         City city = new City("Scise City");
         
         List<double[]> coords = new ArrayList<double[]>();
-        String input = "41.25871065195757,-96.00540161132812$41.23444575262552,-95.97038269042969$41.209655278807034,-96.02668762207031$";
+        String input = "41.36341083816149,-96.09535217285156$41.366502866327224,-96.0260009765625$";
         String[] coordStrs = input.split(Pattern.quote("$"));
         for(String str : coordStrs){
             String[] pairStr = str.split(Pattern.quote(","));
@@ -27,12 +27,28 @@ public class Main {
             pair[1] = Double.parseDouble(pairStr[1]);
             coords.add(pair);
         }
-        /*for(double[] pair : coords){
+        for(double[] pair : coords){
             System.out.println(pair[0] + " <---> " + pair[1]);
-        }*/
+        }
         
+        for(int lidx = 0; lidx < coords.size(); lidx++){
+            double[] pair = coords.get(lidx);
+            Location home = new HomeLocation(pair[0], pair[1], "Location " + lidx);
+            for(int p = 0; p < FAMILY_SIZE; p++){
+                Routine routine = new NormalRoutine();
+                Person person = new Person(routine, home);
+                city.addPerson(person);
+            }
+            city.addLocation(home);
+        }
         
-        for(int x = 0; x < GRID_SIZE; x++){
+        List<Location> locations = city.getLocations();
+        Location l1 = locations.get(0);
+        Location l2 = locations.get(locations.size() - 1);
+        double distance = Location.getDistance(l1, l2);
+        System.out.println("Distance: " + distance + " miles.");
+        
+        /*for(int x = 0; x < GRID_SIZE; x++){
             for(int y = 0; y < GRID_SIZE; y++){
                 GridLocation home = new GridLocation("G" + x + "/" + y, x, y);
                 for(int p = 0; p < FAMILY_SIZE; p++){
@@ -42,7 +58,7 @@ public class Main {
                 }
                 city.addLocation(home);
             }
-        }
+        }*/
         
         List<Person> people = city.getPeople();
         int randomInt = Main.getRandom().nextInt(people.size());

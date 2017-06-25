@@ -47,6 +47,27 @@ public class Location {
         return d;
     }
     
+    public static List<Location> sortByDistanceFrom(Location ref, List<Location> locations){
+        Collections.sort(locations, new DistanceComparator(ref));
+        return locations;
+    }
+    
+    public static List<Location> getWithin(Location ref, double limit, List<Location> locations){
+        List<Location> res = new ArrayList<Location>();
+        Collections.sort(locations, new DistanceComparator(ref));
+        for(int i = 0; i < locations.size(); i++){
+            Location loc = locations.get(i);
+            double dist = Location.getDistance(ref, loc);
+            if(dist <= limit){
+                res.add(loc);
+            }
+            else{
+                break;
+            }
+        }
+        return res;
+    }
+    
     public double getLat(){
         return this.lat;
     }
@@ -57,6 +78,11 @@ public class Location {
     
     public String getName(){
         return this.name;
+    }
+    
+    @Override
+    public String toString(){
+        return this.getName();
     }
 
 }

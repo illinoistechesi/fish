@@ -4,28 +4,28 @@ public class Location {
     
     protected double lat;
     protected double lng;
+    protected String id;
     protected String name = "Unnamed Location";
     
-    public Location(){
-        
+    public Location(String id){
+        this.id = id;
     }
     
-    public Location(String name){
+    public Location(String id, String name){
+        this.id = id;
         this.name = name;
     }
 
-    public Location(double lat, double lng){
+    public Location(String id, double lat, double lng){
+        this.id = id;
         this.lat = lat;
         this.lng = lng;
     }
     
-    public Location(double lat, double lng, String name){
+    public Location(String id, double lat, double lng, String name){
+        this.id = id;
         this.lat = lat;
         this.lng = lng;
-        this.name = name;
-    }
-    
-    public Location(String name, int x, int y){
         this.name = name;
     }
     
@@ -78,6 +78,10 @@ public class Location {
     
     public String getName(){
         return this.name;
+    }
+    
+    public String getID(){
+        return this.id;
     }
     
     @Override

@@ -2,21 +2,21 @@ import java.util.*;
 
 public class HomeLocation extends Location {
 
-    public HomeLocation(){
-        
+    public HomeLocation(String id){
+        super(id);
     }
 
-    public HomeLocation(String name){
-        super(name);
+    public HomeLocation(String id, String name){
+        super(id, name);
     }
     
-    public HomeLocation(double lat, double lng, String name){
-        super(lat, lng, name);
+    public HomeLocation(String id, double lat, double lng, String name){
+        super(id, lat, lng, name);
     }
     
     @Override
     public void doInteractions(List<Person> people){
-        HashMap<Person.State, List<Person>> map = Person.getPeopleByState(people);
+        HashMap<Person.State, List<Person>> map = Person.groupPeopleByState(people);
         for(Person personInf : map.get(Person.State.INFECTED)){
             List<Person> susceptibles = map.get(Person.State.SUSCEPTIBLE);
             Iterator<Person> iter = susceptibles.iterator();

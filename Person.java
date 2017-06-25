@@ -148,12 +148,12 @@ public class Person {
      */
     
     public double getInfectivity(){
-        double res = Main.getRandom().nextDouble();
+        double res = Helper.getRandom().nextDouble();
         return exiting ? res : 0;
     }
     
     public double getSusceptibility(){
-        double res = Main.getRandom().nextDouble();
+        double res = Helper.getRandom().nextDouble();
         return res;
     }
     
@@ -181,7 +181,23 @@ public class Person {
         this.state = state;
     }
     
-    public static HashMap<State, List<Person>> getPeopleByState(List<Person> people){
+    public static HashMap<Location, List<Person>> groupPeopleByLocation(List<Person> people){
+        HashMap<Location, List<Person>> map = new HashMap<Location, List<Person>>();
+        for(Person person : people){
+            Location loc = person.getLocation();
+            if(map.containsKey(loc)){
+                map.get(loc).add(person);
+            }
+            else{
+                List<Person> list = new ArrayList<Person>();
+                list.add(person);
+                map.put(loc, list);
+            }
+        }
+        return map;
+    }
+    
+    public static HashMap<State, List<Person>> groupPeopleByState(List<Person> people){
         HashMap<State, List<Person>> map = new HashMap<State, List<Person>>();
         for(State state : State.values()){
             map.put(state, new ArrayList<Person>());

@@ -2,7 +2,7 @@ import java.util.*;
 
 public class City {
     
-    private int time = 1;
+    private int time = 0;
     private String name;
     private List<Location> locations;
     private List<Person> people;

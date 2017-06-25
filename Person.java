@@ -88,8 +88,10 @@ public class Person {
         return timeSinceInfection;
     }
     
+    private boolean exiting = false;
     private void doInfectionStep(){
         if(energy > MIN_ENERGY){
+            exiting = false;
             energy -= (DAY_COST * bacteria);
             DiseaseAction action = disease.move(this);
             switch(action){
@@ -117,6 +119,7 @@ public class Person {
                         energy -= (EXIT_COST * bacteria);
                         if(energy > MIN_ENERGY){
                             //diseaseEvents.add("Day " + day + ": Infection exited the host.");
+                            exiting = true;
                         }
                         else{
                            //diseaseEvents.add("Day " + day + ": Failed to exit host."); 
@@ -146,7 +149,7 @@ public class Person {
     
     public double getInfectivity(){
         double res = Main.getRandom().nextDouble();
-        return res;
+        return exiting ? res : 0;
     }
     
     public double getSusceptibility(){

@@ -8,6 +8,7 @@ import java.io.*;
 public class Main {
     
     public static int TURNS = 30;
+    public static int MAX_TURNS = 500;
     public static int GRID_SIZE = 20;
     public static int FAMILY_SIZE = 4;
 
@@ -38,10 +39,19 @@ public class Main {
         //Main.printLocationDetails(city);
         Main.printCityLine(city);
         
-        for(int i = 1; i < TURNS; i++){
+        //for(int i = 0; i < TURNS; i++){
+        boolean outbreak = true;
+        while(outbreak){
             city.doTurn();
             //Main.printLocationDetails(city);
             Main.printCityLine(city);
+            int totalInfected = Person.getPeopleByState(city.getPeople()).get(Person.State.INFECTED).size();
+            if(totalInfected == 0){
+                outbreak = false;
+            }
+            if(city.getTime() > MAX_TURNS){
+                outbreak = false;
+            }
         }
         
         //Main.printCitySummary(city);

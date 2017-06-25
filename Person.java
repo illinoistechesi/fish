@@ -2,6 +2,7 @@ import java.util.*;
 
 public class Person {
     
+    AgeGroup ageGroup;
     Routine routine;
     Location location;
     State state;
@@ -24,7 +25,7 @@ public class Person {
         
     };
     
-    public Person(Routine routine, Location location){
+    public Person(AgeGroup ageGroup, Routine routine, Location location){
         this.routine = routine;
         this.location = location;
         this.state = State.SUSCEPTIBLE;
@@ -159,6 +160,10 @@ public class Person {
     
     public Disease getDisease(){
         return this.disease;
+    }
+    
+    public AgeGroup getAgeGroup(){
+        return this.ageGroup;
     }
     
     public void setRoutine(Routine routine){

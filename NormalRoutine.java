@@ -2,10 +2,10 @@ import java.util.*;
 
 public class NormalRoutine extends Routine {
     
-    private double limit = 0.18;
+    private double limit;
     
-    public NormalRoutine(){
-        
+    public NormalRoutine(double limit){
+        this.limit = limit;
     }
     
     public Location getNextLocation(Person person, City city){

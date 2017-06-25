@@ -137,15 +137,12 @@ public class Helper {
         }
     }
 
-    public static List<double[]> readCoordsFromFile(String filename){
-        List<double[]> coords = new ArrayList<double[]>();
+    public static List<String[]> readCoordsFromFile(String filename){
+        List<String[]> coords = new ArrayList<String[]>();
         String input = Helper.readEntireFile(filename);
         String[] coordStrs = input.split(Pattern.quote("$"));
         for(String str : coordStrs){
-            String[] pairStr = str.split(Pattern.quote(","));
-            double[] pair = new double[2];
-            pair[0] = Double.parseDouble(pairStr[0]);
-            pair[1] = Double.parseDouble(pairStr[1]);
+            String[] pair = str.split(Pattern.quote(","));
             coords.add(pair);
         }
         return coords;

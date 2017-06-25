@@ -6,42 +6,57 @@ import java.util.*;
  */
 public class Main {
     
-    public static int TURNS = 30;
     public static int MAX_TURNS = 500;
-    public static int GRID_SIZE = 5;
     public static int FAMILY_SIZE = 4;
 
+    public static String FILE_COORDS = "coords.txt";
     public static String FILE_SIR = "sir.txt";
     public static String FILE_GEO = "geo.txt";
 
     public static void main(String[] args){
         
+        /*
+         * Populate city with locations, people, and routines
+         */
         City city = new City("Scise City");
-        
-        List<double[]> coords = Helper.readCoordsFromFile("coords.txt");
-        
+        List<String[]> coords = Helper.readCoordsFromFile(FILE_COORDS);
         for(int lidx = 0; lidx < coords.size(); lidx++){
-            double[] pair = coords.get(lidx);
+            String[] pair = coords.get(lidx);
             String id = lidx + "";
-            String locName = "Location " + lidx;
-            Location home = new HomeLocation(id, pair[0], pair[1], locName);
+            String locName = pair[2];
+            double lat = Double.parseDouble(pair[0]);
+            double lng = Double.parseDouble(pair[1]);
+            Location home = new HomeLocation(id, lat, lng, locName);
             for(int p = 0; p < FAMILY_SIZE; p++){
-                Routine routine = new NormalRoutine();
-                Person person = new Person(routine, home);
+                double limit = 0.18;
+                Routine routine = new NormalRoutine(limit);
+                AgeGroup ageGroup;
+                if(p < 2){
+                    ageGroup = AgeGroup.ADULT;
+                }
+                else{
+                    ageGroup = AgeGroup.CHILD;
+                }
+                Person person = new Person(ageGroup, routine, home);
                 city.addPerson(person);
             }
             city.addLocation(home);
         }
         
+        /*
+         * Infect random person
+         */
         List<Person> people = city.getPeople();
         int randomInt = Helper.getRandom().nextInt(people.size());
         Disease disease = new DeltaDisease();
         people.get(randomInt).doInfect(disease);
         
+        /*
+         * Run outbreak to completion
+         */
         Main.printCitySummary(city);
         Helper.printCityLine(FILE_SIR, city);
         Helper.printLocationLine(FILE_GEO, city);
-        
         boolean outbreak = true;
         while(outbreak){
             city.doTurn();
@@ -55,9 +70,7 @@ public class Main {
                 outbreak = false;
             }
         }
-        
         System.out.println("Outbreak Length: " + city.getTime());
-        
         Helper.closeAllFiles();
         
     }

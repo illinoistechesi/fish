@@ -5,8 +5,79 @@ import java.util.regex.*;
 public class Helper {
 
     private static Random random = new Random();
-    public static Random getRandom(){
+    public static Random getRandom() {
+        System.out.println("Warning: Used Random, prefer SeededRandom.");
         return random;
+    }
+    
+    private static SeededRandom seededRandom = null;
+    private static boolean warned = false;
+    public static void initSeededRandom(String filename){
+        seededRandom = new SeededRandom(filename);
+    }
+    public static double nextSeed(){
+        double res = 0;
+        if(seededRandom != null){
+            res = seededRandom.nextSeed();
+        }
+        else if(!warned){
+            System.out.println("Warning: No SeededRandom initialized.");
+            warned = true;
+        }
+        return res;
+    }
+    
+    public static class SeededRandom{
+        
+        private int counter = 0;
+        private List<Double> seeds;
+        public SeededRandom(String filename){
+            this.seeds = new ArrayList<Double>();
+            String input = Helper.readEntireFile(filename);
+            String[] lines = input.split(Pattern.quote(","));
+            for(String line : lines){
+                this.seeds.add(Double.parseDouble(line));
+            }
+        }
+        
+        public double nextSeed(){
+            double next = this.seeds.get(this.counter);
+            this.counter = (this.counter + 1) % this.seeds.size();
+            return next;
+        }
+        
+    }
+    
+    public static void createRandomSeed(String filename, int n){
+        Random random = new Random();
+        while(n > 0){
+            //double val = random.nextGaussian();
+            double val = random.nextDouble();
+            Helper.writeFileLine(filename, val + ",");
+            n--;
+        }
+    }
+    
+    public static void main(String[] args){
+        if(args[0].equals("seed")){
+            String filename = args[1];
+            int n = Integer.parseInt(args[2]);
+            createRandomSeed(filename, n);
+            //System.out.println("Generated " + n + " seeded gaussian values in " + filename);
+            System.out.println("Generated " + n + " seeded double values in " + filename);
+        }
+        else if(args[0].equals("next")){
+            Helper.initSeededRandom(args[1]);
+            int n = Integer.parseInt(args[2]);
+            while(n > 0){
+                System.out.println(Helper.nextSeed());
+                n--;   
+            }
+        }
+        else{
+            System.out.println("No command: " + args[0]);
+        }
+        Helper.closeAllFiles();
     }
     
     private static class FileRecord {
@@ -63,6 +134,7 @@ public class Helper {
         
         public String readEntireFile(){
             String out = "";
+            StringBuilder sb = new StringBuilder();
             try{
                 String line = null;
                 boolean reading = true;
@@ -72,9 +144,11 @@ public class Helper {
                         reading = false;
                     }
                     else{
-                        out += line;
+                        //out += line;
+                        sb.append(line);
                     }
                 }
+                out = sb.toString();
             }
             catch(IOException e){
                 System.out.println("Error in readEntireFile()");

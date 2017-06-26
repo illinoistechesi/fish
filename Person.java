@@ -185,12 +185,12 @@ public class Person {
      */
     
     public double getInfectivity(){
-        double res = Helper.getRandom().nextDouble();
+        double res = Helper.nextSeed();
         return exiting ? res : 0;
     }
     
     public double getSusceptibility(){
-        double res = Helper.getRandom().nextDouble();
+        double res = Helper.nextSeed();
         return res;
     }
     

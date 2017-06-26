@@ -13,12 +13,14 @@ public class Main {
     public static String FILE_SIR = "sir.txt";
     public static String FILE_GEO = "geo.txt";
     public static String FILE_PEOPLE = "people.txt";
+    public static String FILE_SEED = "seed.txt";
 
     public static void main(String[] args){
         
         /*
          * Populate city with locations, people, and routines
          */
+        Helper.initSeededRandom(FILE_SEED);
         City city = new City("Scise City");
         List<String[]> coords = Helper.readCoordsFromFile(FILE_COORDS);
         for(int lidx = 0; lidx < coords.size(); lidx++){
@@ -50,8 +52,8 @@ public class Main {
         List<Person> people = city.getPeople();
         //int target = Helper.getRandom().nextInt(people.size());
         int target = 2;
-        //Disease disease = new DeltaDisease();
-        Disease disease = new GammaDisease();
+        Disease disease = new DeltaDisease();
+        //Disease disease = new GammaDisease();
         people.get(target).doInfect(disease);
         
         /*

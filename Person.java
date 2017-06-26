@@ -25,16 +25,52 @@ public class Person {
         
     };
     
+    protected class Record {
+        
+        private int time;
+        private Location location;
+        private State state;
+        
+        public Record(int time, Location location, State state){
+            this.time = time;
+            this.location = location;
+            this.state = state;
+        }
+        
+        public int getTime(){
+            return this.time;
+        }
+        
+        public Location getLocation(){
+            return this.location;
+        }
+        
+        public State getState(){
+            return this.state;
+        }
+        
+        @Override
+        public String toString(){
+            return this.getTime() + "$" + this.getLocation() + "$" + this.getState();
+        }
+        
+    }
+    
+    private List<Record> history;
+    
     public Person(AgeGroup ageGroup, Routine routine, Location location){
+        this.ageGroup = ageGroup;
         this.routine = routine;
         this.location = location;
         this.state = State.SUSCEPTIBLE;
+        this.history = new ArrayList<Record>();
     }
 
     private int currentTime;
     
     public void doTurn(City city){
         currentTime = city.getTime();
+        this.history.add(new Record(currentTime, this.getLocation(), this.getState()));
         if(this.getState() == State.INFECTED){
             doInfectionStep();
         }
@@ -184,6 +220,10 @@ public class Person {
     
     public void setState(State state){
         this.state = state;
+    }
+    
+    public List<Record> getHistory(){
+        return this.history;
     }
     
     public static HashMap<Location, List<Person>> groupPeopleByLocation(List<Person> people){

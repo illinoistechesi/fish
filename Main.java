@@ -12,6 +12,7 @@ public class Main {
     public static String FILE_COORDS = "coords.txt";
     public static String FILE_SIR = "sir.txt";
     public static String FILE_GEO = "geo.txt";
+    public static String FILE_PEOPLE = "people.txt";
 
     public static void main(String[] args){
         
@@ -44,12 +45,14 @@ public class Main {
         }
         
         /*
-         * Infect random person
+         * Infect a single person
          */
         List<Person> people = city.getPeople();
-        int randomInt = Helper.getRandom().nextInt(people.size());
-        Disease disease = new DeltaDisease();
-        people.get(randomInt).doInfect(disease);
+        //int target = Helper.getRandom().nextInt(people.size());
+        int target = 2;
+        //Disease disease = new DeltaDisease();
+        Disease disease = new GammaDisease();
+        people.get(target).doInfect(disease);
         
         /*
          * Run outbreak to completion
@@ -70,6 +73,7 @@ public class Main {
                 outbreak = false;
             }
         }
+        Helper.printPeopleData(FILE_PEOPLE, city);
         System.out.println("Outbreak Length: " + city.getTime());
         Helper.closeAllFiles();
         

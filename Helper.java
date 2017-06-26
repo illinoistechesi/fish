@@ -171,4 +171,17 @@ public class Helper {
         Helper.writeFileLine(filename, out);
     }
 
+    public static void printPeopleData(String filename, City city){
+        int p = 0;
+        for(Person person : city.getPeople()){
+            List<Person.Record> history = person.getHistory();
+            String out = "Person " + p + "," + person.getAgeGroup() + ",";
+            for(Person.Record rec : history){
+                out += rec + ",";
+            }
+            Helper.writeFileLine(filename, out);
+            p++;
+        }
+    }
+
 }

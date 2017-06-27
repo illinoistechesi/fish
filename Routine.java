@@ -6,6 +6,6 @@ abstract public class Routine {
         
     }
     
-    abstract Location getNextLocation(Person person, City city);
+    abstract public Location getNextLocation(Person person, City city);
     
 }

@@ -47,6 +47,14 @@ public class City {
         return this.time;
     }
     
+    public int getDay(){
+        return (int)(this.time / 24);
+    }
+    
+    public int getHour(){
+        return this.time % 24;
+    }
+    
     public String getName(){
         return this.name;
     }

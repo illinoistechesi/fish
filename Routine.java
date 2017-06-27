@@ -1,3 +1,5 @@
+package fish;
+
 abstract public class Routine {
     
     public Routine(){

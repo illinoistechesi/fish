@@ -1,3 +1,4 @@
+package fish;
 import java.util.*;
 
 public class HomeLocation extends Location {

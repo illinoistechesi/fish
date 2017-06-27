@@ -1,3 +1,4 @@
+package fish;
 public class Kineosphaera extends Pathogen {
     
     @Override

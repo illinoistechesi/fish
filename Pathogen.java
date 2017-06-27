@@ -1,5 +1,6 @@
+package fish;
 
-abstract class Pathogen {
+public abstract class Pathogen {
     
     public static void main(String args[]){
         City city = new City("Pathogen City");

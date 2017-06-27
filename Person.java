@@ -1,3 +1,4 @@
+package fish;
 import java.util.*;
 
 public class Person {
@@ -113,7 +114,7 @@ public class Person {
         }
     }
     
-    protected void doInfect(Pathogen pathogen){
+    public void doInfect(Pathogen pathogen){
         if(this.pathogen == null){
             this.exposure = currentTime;
             this.pathogen = pathogen;

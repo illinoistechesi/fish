@@ -250,10 +250,12 @@ public class Helper {
         int p = 0;
         for(Person person : city.getPeople()){
             List<Person.Record> history = person.getHistory();
-            String out = "Person " + p + "," + person.getAgeGroup() + ",";
+            StringBuilder sb = new StringBuilder();
+            sb.append("Person " + p + "," + person.getAgeGroup() + ",");
             for(Person.Record rec : history){
-                out += rec + ",";
+                sb.append(rec + ",");
             }
+            String out = sb.toString();
             Helper.writeFileLine(filename, out);
             p++;
         }

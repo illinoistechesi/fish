@@ -90,6 +90,10 @@ public class Person {
         this.location = loc;
     }
     
+    public boolean feelsSick(){
+        return isIncubated() && getState() != State.RESISTANT;
+    }
+    
     public boolean isContagious(){
         return isLatent() && getState() != State.RESISTANT;
     }

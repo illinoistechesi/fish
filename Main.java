@@ -52,9 +52,8 @@ public class Main {
         List<Person> people = city.getPeople();
         //int target = Helper.getRandom().nextInt(people.size());
         int target = 2;
-        Disease disease = new DeltaDisease();
-        //Disease disease = new GammaDisease();
-        people.get(target).doInfect(disease);
+        Pathogen pathogen = new Kineosphaera();
+        people.get(target).doInfect(pathogen);
         
         /*
          * Run outbreak to completion
@@ -67,11 +66,14 @@ public class Main {
             city.doTurn();
             Helper.printCityLine(FILE_SIR, city);
             Helper.printLocationLine(FILE_GEO, city);
-            int totalInfected = Person.groupPeopleByState(city.getPeople()).get(Person.State.INFECTED).size();
-            if(totalInfected == 0){
-                outbreak = false;
+            boolean pathogenFound = false;
+            for(Person person : city.getPeople()){
+                if(person.getPathogen() != null){
+                    pathogenFound = true;
+                    break;
+                }
             }
-            if(city.getTime() > MAX_TURNS){
+            if(!pathogenFound || city.getTime() > MAX_TURNS){
                 outbreak = false;
             }
         }

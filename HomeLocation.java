@@ -16,16 +16,14 @@ public class HomeLocation extends Location {
     
     @Override
     public void doInteractions(List<Person> people){
-        HashMap<Person.State, List<Person>> map = Person.groupPeopleByState(people);
-        for(Person personInf : map.get(Person.State.INFECTED)){
-            List<Person> susceptibles = map.get(Person.State.SUSCEPTIBLE);
-            Iterator<Person> iter = susceptibles.iterator();
+        List<Person> contagious = Person.getContagious(people);
+        List<Person> vulnerable = Person.getVulnerable(people);
+        for(Person personCon : contagious){
+            Iterator<Person> iter = vulnerable.iterator();
             while(iter.hasNext()){
-                Person personSus = iter.next();
-                double inf = personInf.getInfectivity();
-                double sus = personSus.getSusceptibility();
-                if(inf > sus){
-                    personSus.doInfect(personInf.getDisease());
+                Person personVul = iter.next();
+                personVul.doExposure(personCon.getPathogen());
+                if(personVul.getPathogen() != null){
                     iter.remove();
                 }
             }

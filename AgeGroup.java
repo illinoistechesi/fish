@@ -3,8 +3,8 @@ package fish;
 public enum AgeGroup {
     
     CHILD ("Child", 5, 13),
-    TEEN ("Teen", 13, 19),
-    ADULT ("Adult", 19, 40),
+    TEEN ("Teen", 13, 25),
+    ADULT ("Adult", 25, 40),
     ELDER ("Elder", 40, 65);
     
     private String name;

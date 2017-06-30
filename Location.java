@@ -39,6 +39,12 @@ public class Location {
         this.pathogen = pathogen;
     }
     
+    public boolean doDisinfect(Pathogen pathogen){
+        boolean wasInfected = this.isInfected();
+        this.pathogen = null;
+        return wasInfected;
+    }
+    
     private static double EARTH_RADIUS = 3961.0; // in miles
     public static double getDistance(Location l1, Location l2){
         double dLng = Math.toRadians(l2.getLng() - l1.getLng());

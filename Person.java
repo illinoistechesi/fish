@@ -88,9 +88,31 @@ public class Person {
         }
         Location loc = this.getLocation();
         if(this.getRoutine() != null){
-            loc = routine.getNextLocation(this, city);    
+            loc = routine.getNextLocation(this, city);
         }
+        loc = this.applyControlMeasures(city, loc);
         this.location = loc;
+    }
+    
+    private ControlMeasure controlMeasure = null;
+    private Location applyControlMeasures(City city, Location nextLoc){
+        Location res = nextLoc;
+        if(controlMeasure != null){
+            int[] range = controlMeasure.getTimeRange();
+            int time = city.getTime();
+            if(time > range[0] && time < range[1]){
+                res = controlMeasure.applyMeasure(city, this, nextLoc);
+            }
+        }
+        return res;
+    }
+    
+    public ControlMeasure getControlMeasure(){
+        return this.controlMeasure;
+    }
+    
+    public void setControlMeasure(ControlMeasure cm){
+        this.controlMeasure = cm;
     }
     
     public boolean feelsSick(){
@@ -290,5 +312,18 @@ public class Person {
         }
         return map;
     }
+    
+    public static HashMap<AgeGroup, List<Person>> groupPeopleByAgeGroup(List<Person> people){
+        HashMap<AgeGroup, List<Person>> map = new HashMap<AgeGroup, List<Person>>();
+        for(AgeGroup ageGroup : AgeGroup.values()){
+            map.put(ageGroup, new ArrayList<Person>());
+        }
+        for(Person p : people){
+            map.get(p.getAgeGroup()).add(p);
+        }
+        return map;
+    }
+    
+    
     
 }

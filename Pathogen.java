@@ -40,7 +40,7 @@ public abstract class Pathogen {
         
     }
     
-    abstract int expand(int bacteria);
+    abstract public int expand(int bacteria);
 
     public String getName() {
         return "[DEFAULT] Disease Name";

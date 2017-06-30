@@ -3,6 +3,7 @@ import java.util.*;
 
 public class Person {
     
+    int age;
     AgeGroup ageGroup;
     Routine routine;
     Location location;
@@ -26,7 +27,7 @@ public class Person {
         
     };
     
-    protected class Record {
+    public class Record {
         
         private int time;
         private Location location;
@@ -61,6 +62,7 @@ public class Person {
     
     public Person(AgeGroup ageGroup){
         this.ageGroup = ageGroup;
+        this.age = AgeGroup.getRandomAge(ageGroup);
         this.routine = null;
         this.location = null;
         this.state = State.SUSCEPTIBLE;
@@ -69,6 +71,7 @@ public class Person {
     
     public Person(AgeGroup ageGroup, Routine routine, Location location){
         this.ageGroup = ageGroup;
+        this.age = AgeGroup.getRandomAge(ageGroup);
         this.routine = routine;
         this.location = location;
         this.state = State.SUSCEPTIBLE;
@@ -156,10 +159,10 @@ public class Person {
     private int MIN_BACTERIA = 0;
     private double BACTERIA_COST = 0.5;
     
-    private int LATENT_THRESHOLD = 100;
-    private int INCUBATION_TRESHOLD = 200;
+    private int LATENT_THRESHOLD = 500;
+    private int INCUBATION_TRESHOLD = 5000;
     
-    private double COEFF = 0.325;
+    private double COEFF = 2;//0.325;
     
     private int lastBacteria = 0;
     private int sumBacteria = 0;
@@ -207,6 +210,10 @@ public class Person {
     
     public AgeGroup getAgeGroup(){
         return this.ageGroup;
+    }
+    
+    public int getAge(){
+        return this.age;
     }
     
     public void setRoutine(Routine routine){

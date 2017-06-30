@@ -7,6 +7,7 @@ public class Location {
     protected double lng;
     protected String id;
     protected String name = "Unnamed Location";
+    private Pathogen pathogen = null;
     
     public Location(String id){
         this.id = id;
@@ -32,6 +33,10 @@ public class Location {
     
     public void doInteractions(List<Person> people){
         
+    }
+    
+    public void doInfect(Pathogen pathogen){
+        this.pathogen = pathogen;
     }
     
     private static double EARTH_RADIUS = 3961.0; // in miles
@@ -67,6 +72,14 @@ public class Location {
             }
         }
         return res;
+    }
+    
+    public Pathogen getPathogen(){
+        return this.pathogen;
+    }
+    
+    public boolean isInfected(){
+        return this.pathogen != null;
     }
     
     public double getLat(){

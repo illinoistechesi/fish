@@ -5,7 +5,7 @@ public abstract class Pathogen {
     public static void main(String args[]){
         City city = new City("Pathogen City");
         Pathogen pathogen = new Kineosphaera();
-        Person person = new Person(AgeGroup.ADULT);
+        Person person = new Person("TEST", AgeGroup.ADULT);
         person.doInfect(pathogen);
         int t = 0;
         int latentOn = -1;

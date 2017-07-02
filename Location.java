@@ -39,7 +39,7 @@ public class Location {
         this.pathogen = pathogen;
     }
     
-    public boolean doDisinfect(Pathogen pathogen){
+    public boolean doDisinfect(){
         boolean wasInfected = this.isInfected();
         this.pathogen = null;
         return wasInfected;
@@ -74,6 +74,17 @@ public class Location {
                 res.add(loc);
             }
             else{
+                break;
+            }
+        }
+        return res;
+    }
+    
+    public static Location getLocationByName(List<Location> list, String name){
+        Location res = null;
+        for(Location loc : list){
+            if(loc.getName().equals(name)){
+                res = loc;
                 break;
             }
         }

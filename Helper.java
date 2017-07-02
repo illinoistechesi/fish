@@ -81,6 +81,19 @@ public class Helper {
         Helper.closeAllFiles();
     }
     
+    private static Map<String, Integer> printRecords = new HashMap<String, Integer>();
+    public static void printlnLimitTo(String key, String content, int limit){
+        if(!printRecords.containsKey(key)){
+            printRecords.put(key, 0);
+        }
+        if(printRecords.get(key) < limit){
+            System.out.println(content);
+            int count = printRecords.get(key);
+                count++;
+            printRecords.put(key, count);
+        }
+    }
+    
     private static class FileRecord {
         
         private String filename;
@@ -181,17 +194,20 @@ public class Helper {
         
     }
     
+    private static boolean allowWrites = true;
     private static HashMap<String, FileRecord> fileMap = new HashMap<String, FileRecord>();
     
     public static void writeFileLine(String filename, String content){
-        if(!fileMap.containsKey(filename)){
-            fileMap.put(filename, new FileRecord(filename));
+        if(allowWrites){
+            if(!fileMap.containsKey(filename)){
+                fileMap.put(filename, new FileRecord(filename));
+            }
+            FileRecord rec = fileMap.get(filename);
+            if(!rec.isOpenForWriting()){
+               rec.openForWriting(); 
+            }
+            rec.writeFileLine(content);
         }
-        FileRecord rec = fileMap.get(filename);
-        if(!rec.isOpenForWriting()){
-           rec.openForWriting(); 
-        }
-        rec.writeFileLine(content);
     }
     
     public static String readEntireFile(String filename){
@@ -210,6 +226,14 @@ public class Helper {
         for(Map.Entry<String, FileRecord> entry : fileMap.entrySet()){
             entry.getValue().closeFile();
         }
+    }
+
+    public static void disableWrites(){
+        allowWrites = false;
+    }
+    
+    public static void enableWrites(){
+        allowWrites = true;
     }
 
     public static List<String[]> readCoordsFromFile(String filename){

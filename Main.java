@@ -34,6 +34,7 @@ public class Main {
             for(int p = 0; p < FAMILY_SIZE; p++){
                 double limit = 0.18;
                 Routine routine = new NormalRoutine(limit);
+                String pid = "ESI" + city.getPeople().size();
                 AgeGroup ageGroup;
                 if(p < 2){
                     ageGroup = AgeGroup.ADULT;
@@ -41,7 +42,7 @@ public class Main {
                 else{
                     ageGroup = AgeGroup.CHILD;
                 }
-                Person person = new Person(ageGroup, routine, home);
+                Person person = new Person(pid, ageGroup, routine, home);
                 city.addPerson(person);
             }
             city.addLocation(home);

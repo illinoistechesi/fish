@@ -3,11 +3,12 @@ import java.util.*;
 
 public class Person {
     
-    int age;
-    AgeGroup ageGroup;
-    Routine routine;
-    Location location;
-    State state;
+    private String id;
+    private int age;
+    private AgeGroup ageGroup;
+    private Routine routine;
+    private Location location;
+    private State state;
     
     public enum State {
         
@@ -60,7 +61,8 @@ public class Person {
     
     private List<Record> history;
     
-    public Person(AgeGroup ageGroup){
+    public Person(String id, AgeGroup ageGroup){
+        this.id = id;
         this.ageGroup = ageGroup;
         this.age = AgeGroup.getRandomAge(ageGroup);
         this.routine = null;
@@ -69,7 +71,8 @@ public class Person {
         this.history = new ArrayList<Record>();
     }
     
-    public Person(AgeGroup ageGroup, Routine routine, Location location){
+    public Person(String id, AgeGroup ageGroup, Routine routine, Location location){
+        this.id = id;
         this.ageGroup = ageGroup;
         this.age = AgeGroup.getRandomAge(ageGroup);
         this.routine = routine;
@@ -77,12 +80,29 @@ public class Person {
         this.state = State.SUSCEPTIBLE;
         this.history = new ArrayList<Record>();
     }
+    
+    private Map<String, Location> locationMap = new HashMap<String, Location>();
+    
+    public void addNamedLocation(String key, Location loc){
+        this.locationMap.put(key, loc);
+    }
+    
+    public Location getNamedLocation(String key){
+        Location res = null;
+        if(this.hasNamedLocation(key)){
+            res = this.locationMap.get(key);
+        }
+        return res;
+    }
+    
+    public boolean hasNamedLocation(String key){
+        return this.locationMap.containsKey(key);
+    }
 
     private int currentTime;
     
     public void doTurn(City city){
         currentTime = city.getTime();
-        this.history.add(new Record(currentTime, this.getLocation(), this.getState()));
         if(this.getPathogen() != null){
             doInfectionStep();
         }
@@ -92,8 +112,10 @@ public class Person {
         }
         loc = this.applyControlMeasures(city, loc);
         this.location = loc;
+        this.history.add(new Record(currentTime, this.getLocation(), this.getState()));
     }
     
+    private static double INCONVENIENCE_COST = 15;
     private ControlMeasure controlMeasure = null;
     private Location applyControlMeasures(City city, Location nextLoc){
         Location res = nextLoc;
@@ -103,6 +125,12 @@ public class Person {
             if(time > range[0] && time < range[1]){
                 res = controlMeasure.applyMeasure(city, this, nextLoc);
             }
+        }
+        if(!res.equals(nextLoc)){
+            //String ln = this + " wanted to go to " + nextLoc + " but was quarantined to " + res + ".";
+            //Helper.printlnLimitTo("q", ln, 10);
+            controlMeasure.addAffectedPerson(this, city.getTime());
+            controlMeasure.addCost(INCONVENIENCE_COST);
         }
         return res;
     }
@@ -246,7 +274,7 @@ public class Person {
         return this.routine;
     }
 
-    public void setLocation(Location loc){
+    private void setLocation(Location loc){
         this.location = loc;
     }
     
@@ -258,12 +286,21 @@ public class Person {
         return this.state;
     }
     
-    public void setState(State state){
+    private void setState(State state){
         this.state = state;
     }
     
     public List<Record> getHistory(){
         return this.history;
+    }
+    
+    public String getID(){
+        return this.id;
+    }
+    
+    @Override
+    public String toString(){
+        return "Person " + this.getID();
     }
     
     public static List<Person> getContagious(List<Person> people){

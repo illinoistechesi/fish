@@ -115,7 +115,7 @@ public class Person {
         this.history.add(new Record(currentTime, this.getLocation(), this.getState()));
     }
     
-    private static double INCONVENIENCE_COST = 15;
+    private static double INCONVENIENCE_COST = 2.00 / 8.0;
     private ControlMeasure controlMeasure = null;
     private Location applyControlMeasures(City city, Location nextLoc){
         Location res = nextLoc;

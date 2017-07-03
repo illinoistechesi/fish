@@ -17,9 +17,9 @@ public enum AgeGroup {
     
     public static int getRandomAge(AgeGroup ag){
         int[] ar = ag.getAgeRange();
-        double range = (double)(ar[1] - ar[0]);
-        double ageAdd = Helper.nextSeed() * range;
-        return (int)Math.round((double)ar[0] + ageAdd);
+        int range = ar[1] - ar[0];
+        int ageAdd = Helper.getRandom().nextInt(range);
+        return ar[0] + ageAdd;
     }
     
     public int[] getAgeRange(){

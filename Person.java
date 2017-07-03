@@ -156,7 +156,7 @@ public class Person {
     }
     
     public double getSusceptibility(){
-        double res = Helper.nextSeed();
+        double res = Helper.getRandom().nextDouble();
         return res;
     }
     
@@ -165,7 +165,7 @@ public class Person {
     
     public void doExposure(Pathogen pathogen){
         double infection = getSusceptibility() * pathogen.getInfectivity(ageGroup);
-        double avoidance = Helper.nextSeed();
+        double avoidance = Helper.getRandom().nextDouble();
         if(infection > avoidance){
             this.doInfect(pathogen);
         }

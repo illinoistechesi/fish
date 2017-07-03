@@ -5,10 +5,17 @@ import java.util.regex.*;
 
 public class Helper {
 
+    private static boolean isSeeded = false;
     private static Random random = new Random();
     public static Random getRandom() {
-        System.out.println("Warning: Used Random, prefer SeededRandom.");
+        if(!isSeeded){
+            Helper.printlnLimitTo("no_seed", "Warning: No seed, values not reproducible.", 1);
+        }
         return random;
+    }
+    public static void setSeed(int seed){
+        isSeeded = true;
+        random.setSeed(seed);
     }
     
     private static SeededRandom seededRandom = null;
@@ -17,13 +24,13 @@ public class Helper {
         seededRandom = new SeededRandom(filename);
     }
     public static double nextSeed(){
+        Helper.printlnLimitTo("seed_warning", "Warning: Used SeededRandom, prefer Random.", 1);
         double res = 0;
         if(seededRandom != null){
             res = seededRandom.nextSeed();
         }
-        else if(!warned){
-            System.out.println("Warning: No SeededRandom initialized.");
-            warned = true;
+        else{
+            Helper.printlnLimitTo("no_seed_file", "Warning: No SeededRandom initialized.", 1);
         }
         return res;
     }
@@ -73,6 +80,16 @@ public class Helper {
             while(n > 0){
                 System.out.println(Helper.nextSeed());
                 n--;   
+            }
+        }
+        else if(args[0].equals("random")){
+            int seed = Integer.parseInt(args[1]);
+            Random r = new Random(seed);
+            //r.setSeed(12);
+            for(int i = 0; i < 5; i++){
+                System.out.println(r.nextInt());
+                System.out.println(r.nextDouble());
+                System.out.println(r.nextGaussian());
             }
         }
         else{
